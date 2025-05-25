@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lap QR Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    header {
+      width: 100%;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      animation: slideDown 1s ease-in-out;
+    }
+    header h1 {
+      font-size: 24px;
+      color: #38bdf8;
+    }
+    nav a {
+      margin-left: 20px;
+      color: #f1f5f9;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #38bdf8;
+    }
+    section {
+      padding: 100px 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .hero {
+      margin-top: 80px;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      animation: slideUp 1s ease-in-out;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    .qr-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      max-width: 500px;
+      width: 100%;
+      animation: scaleIn 1s ease;
+    }
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      background-color: #38bdf8;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s;
+    }
+    button:hover {
+      background-color: #0ea5e9;
+      transform: scale(1.05);
+    }
+    #qrcode {
+      margin-top: 20px;
+    }
+    .features, .contact {
+      text-align: center;
+    }
+    .features h3, .contact h3 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .features p, .contact p {
+      font-size: 18px;
+      color: #94a3b8;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0,0,0,0.2);
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lap QR Generator</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <h2>Create Stunning QR Codes Instantly</h2>
+    <p>100% Free, Fast & Stylish QR Code Generator by Lap</p>
+    <div class="qr-box">
+      <input type="text" id="text" placeholder="Enter your URL or text here..." />
+      <button onclick="generateQRCode()">Generate QR Code</button>
+      <div id="qrcode"></div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <h3>Why Use Lap QR Generator?</h3>
+    <p>Free Forever · No Ads · No Login · Clean Design · Works Instantly</p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h3>Contact Us</h3>
+    <p>Email: <a href="mailto:lamprosgamesinfo@gmail.com">lamprosgamesinfo@gmail.com</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Lap QR Generator · Built by Lap V1.0
+  </footer>
+
+  <script>
+    function generateQRCode() {
+      const qrContainer = document.getElementById("qrcode");
+      const input = document.getElementById("text").value;
+      qrContainer.innerHTML = "";
+      if (!input.trim()) {
+        alert("Please enter some text or URL.");
+        return;
+      }
+      new QRCode(qrContainer, {
+        text: input,
+        width: 200,
+        height: 200,
+        colorDark: "#000",
+        colorLight: "#fff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    }
+  </script>
+</body>
+</html>
